@@ -1,25 +1,20 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.views.generic import TemplateView
+from .models import Friend
 from .forms import HelloForm
 
-
-class HelloView(TemplateView):
-    def __init__(self):
-        self.params = {
-            'title': 'Hello',
-            'message': 'your data:',
-            'form': HelloForm()
-        }
-
-    def get(self, request):
-        return render(request, 'hello/index.html.django', self.params)
-
-    def post(self, request):
-        msg = 'あなたは、<b>' + request.POST['name'] + \
-            ' (' + request.POST['age'] + \
-            ') </b>さんです。<br>メールアドレスは <b>' + request.POST['mail'] + \
-            '</b> ですね。'
-        self.params['message'] = msg
-        self.params['form'] = HelloForm(request.POST)
-        return render(request, 'hello/index.html.django', self.params)
+def index(request):
+    data = Friend.objects.all()
+    params = {
+        'title': 'Hello',
+        'message': 'all friends.',
+        'form': HelloForm(),
+        'data': [],
+    }
+    if (request.method == 'POST'):
+        num = request.POST['id']
+        item = Friend.objects.get(id=num)
+        params['data'] = [item]
+        params['form'] = HelloForm(request.POST)
+    else:
+        params['data'] = Friend.objects.all().values('id', 'name')
+    return render(request, 'hello/index.html.django', params)

@@ -8,12 +8,20 @@
     {# <link rel="stylesheet" type="text/css" href="{% static 'hello/css/style.css' %}" /> #}
 </head>
 <body class="container">
-    <h1 class="display-4 text-primary">{{title}}</h1>
-    <p class="h5 mt-4">{{message|safe}}</p>
-    <form action="{% url 'index' %}" method="post">
+    <h1 class="display-4 text-primary">{{ title }}</h1>
+    <p class="h5 mt-4">{{ message|safe }}</p>
+    <form actin="{% url 'index' %}" method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="click" class="btn btn-primary my-2">
+        {{ form }}
+        <input type="submit" value="click">
     </form>
+    <hr>
+    <table class="table">
+    {% for item in data %}
+        <tr>
+            <td>{{ item }}</td>
+        </tr>
+    {% endfor %}
+    </table>
 </body>
 </html>
