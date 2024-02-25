@@ -10,3 +10,11 @@ class Friend(models.Model):
     def __str__(self):
         return '<Friend:id=' + str(self.id) + ', ' + \
             self.name + '(' + str(self.age) + ')>'
+
+
+class Test(models.Model):
+    text = models.CharField(max_length=255, blank=True, null=True)
+    fields = models.JSONField(blank=True, null=True)
+
+    def __str__(self):
+        return '<Test:text=' + str(self.text) + ', ' + str(self.fields) + '>'

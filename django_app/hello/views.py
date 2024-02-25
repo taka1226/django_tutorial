@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Friend
+from .models import Test
 from .forms import HelloForm
 
 def index(request):
@@ -10,6 +11,12 @@ def index(request):
         'form': HelloForm(),
         'data': [],
     }
+
+
+    query = Test.objects.filter(fields__contains=[{'name': 'sample2', 'value': "True"}])
+    print(query.get())
+
+
     if (request.method == 'POST'):
         num = request.POST['id']
         item = Friend.objects.get(id=num)
